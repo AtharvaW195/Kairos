@@ -1,0 +1,10 @@
+import { FormEvent, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { authenticate } from "../api";
+
+export function AuthForm({ mode }: { mode: "login" | "register" }) {
+  const [email, setEmail] = useState(""); const [password, setPassword] = useState(""); const [error, setError] = useState(""); const navigate = useNavigate();
+  const isRegister = mode === "register";
+  async function submit(event: FormEvent) { event.preventDefault(); setError(""); try { const token = await authenticate(isRegister ? "/register" : "/login", email, password); localStorage.setItem("kairos_token", token); navigate("/dashboard"); } catch (reason) { setError(reason instanceof Error ? reason.message : "Authentication failed."); } }
+  return <section className="mx-auto max-w-md"><h1 className="text-3xl font-bold">{isRegister ? "Create your account" : "Welcome back"}</h1><p className="mt-2 text-slate-400">{isRegister ? "Start building your simulated portfolio." : "Sign in to continue to Kairos."}</p><form onSubmit={submit} className="mt-8 space-y-5"><label className="block text-sm">Email<input required type="email" value={email} onChange={(event) => setEmail(event.target.value)} className="mt-2 w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2" /></label><label className="block text-sm">Password<input required minLength={8} type="password" value={password} onChange={(event) => setPassword(event.target.value)} className="mt-2 w-full rounded-lg border border-slate-700 bg-slate-900 px-3 py-2" /></label>{error && <p className="text-sm text-red-400">{error}</p>}<button className="w-full rounded-lg bg-emerald-500 px-4 py-3 font-semibold text-slate-950">{isRegister ? "Register" : "Sign in"}</button></form><p className="mt-6 text-sm text-slate-400">{isRegister ? "Already have an account?" : "New to Kairos?"} <Link className="text-emerald-400" to={isRegister ? "/login" : "/register"}>{isRegister ? "Sign in" : "Register"}</Link></p></section>;
+}

@@ -1,0 +1,1 @@
+export function Placeholder({ title }: { title: string }) { return <section><p className="text-sm font-semibold text-emerald-400">Coming soon</p><h1 className="mt-2 text-4xl font-bold">{title}</h1><p className="mt-4 text-slate-400">This part of Kairos will be built in a later phase.</p></section>; }

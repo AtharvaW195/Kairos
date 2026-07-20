@@ -1,0 +1,10 @@
+.env
+backend/.env
+frontend/.env
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+node_modules/
+frontend/dist/
+*.sqlite3
